@@ -25,7 +25,7 @@ class convert:
         	return("binary")
 
     @classmethod
-    def conv2ascii(cls, filename):
+    def conv2ascii(cls, filename, **kwargs):
 
         # ASCII STL format (from Wikipedia):
         # solid name(optional)
@@ -53,7 +53,12 @@ class convert:
         cls.mesh = np.fromfile(rf, dtype=dtObj, count=-1)
         rf.close()
 
-        wf = open("out.stl",'w+')
+        if (kwargs.get('outfile',"default value")):
+            outfile = str(kwargs.get('outfile',"default value")+".stl")
+        else:
+            outfile = "out.stl"
+
+        wf = open(outfile,'w+')
         wf.write("solid\n")
 
         for i in range(int(cls.numTriangles)):
@@ -79,7 +84,8 @@ class convert:
 
 def main():
     parser = argparse.ArgumentParser(description="QR Code Extractor")
-    parser.add_argument("infile", help="The filename of the STL")
+    parser.add_argument("infile", help="The filename of the STL. e.g.: 'gimbal.stl' ")
+    parser.add_argument("outfile", nargs='?',help="The name of the output file e.g.: 'profile'. It is unnecessary to add the .stl extension")
     args = parser.parse_args()
 
     if (not os.path.exists(args.infile)):
@@ -90,7 +96,7 @@ def main():
     type = file.readType(args.infile)
 
     if (type == "binary"):
-        file.conv2ascii(args.infile)
+        file.conv2ascii(args.infile, outfile=args.outfile)
 
     elif (type == "ascii"):
         print("ASCII to binary not yet implemented...")
