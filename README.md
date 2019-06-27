@@ -7,7 +7,7 @@ A simple python script to convert STL files between ASCII and Binary
 2. Run the script 
 
    ```bash
-   $ python3 ./convSTL.py {file-to-convert.stl} {filename-to-save-to}*
+   $ python3 ./convSTL.py file-to-convert.stl filename-to-save-to*
    ```
 *The second argument is optional. It also does not require an extension.
 
